@@ -2,7 +2,7 @@
 ────────────────────────────────────────────────────────────
 📄  Ping-Monitor.ps1 — Real-Time Ping Monitor
 🔧  Version:    1.1.8 (Stable)
-📅  Updated:    2025-08-28
+📅  Updated:    2025-09-05
 👤  Author:     Mantas Adomavičius
 🧠  Description:
      Logs and color-codes ping results for target hosts every 60s.
@@ -16,7 +16,7 @@ $Global:Folder = ($PSCommandPath -replace '[^\\]+$', '') -replace '\\$', ''
 $Folder = $Global:Folder   # local alias for consistency
 $Global:PingMonitorVersion = "Ping Monitor v1.1.8"
 
-. "$Folder\adomm.psfl.ps1"  # Load shared functions
+. "$Folder\Ping-Monitor.cfg.ps1"  # Load configuration
 
 for ($i=5; $i -gt 0; $i--) {
     Write-Host "$i seconds for resizing the window" -ForegroundColor 'White'
@@ -24,13 +24,9 @@ for ($i=5; $i -gt 0; $i--) {
     Clear-ConsoleWindow
 }
 
-$domains = "Google:google.com;Steam:155.133.226.10;Twitch:twitch.tv".Split(';')
-$link = ""
-$pingRequests = 4
 $err = 0
 $i = 1
 $for = 2
-$timeout_s = 60  # matches banner; real cadence ~60s including ping/repaint
 
 "$(Get-Date -Format 'HH:mm:ss') $Global:PingMonitorVersion — $pingRequests pings/host every ${timeout_s}s" |
     Out-File -FilePath "$Folder\Ping-Check\Ping-Check-$(Get-Date -Format 'yyyy-MM-dd').txt" -Append
@@ -85,7 +81,7 @@ while ($i -lt $for) {
     if ($err -gt 0) { $PingErrorCount = " (*$err)" } else { $PingErrorCount = "" }
     $ui.WindowTitle = "$Global:PingMonitorVersion$PingErrorCount"
 	
-    $text = "$flag$(Get-Date -Format 'HH:mm:ss')$text ${pingTime}ms"
+    $text = "$flag$(Get-Date -Format 'HH:mm:ss')$text ~${pingTime}ms"
 
     "$text" | Out-File -FilePath "$Folder\Ping-Check\Ping-Check-$(Get-Date -Format 'yyyy-MM-dd').txt" -Append
 
