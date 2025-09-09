@@ -1,4 +1,4 @@
-# 📄 Ping Monitor (PowerShell)
+# 📄 Ping Monitor v1.1.8 (PowerShell)
 
 **Ping Monitor** is a lightweight PowerShell script for real-time monitoring of multiple hosts.  
 It logs latency, highlights issues, and provides a clean color-coded console view.
